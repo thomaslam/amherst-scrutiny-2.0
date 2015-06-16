@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Amherst Scrutiny</title>
+    <!-- remember to use style.min.css -->
+    <link rel="stylesheet" type="text/css" href="./stylesheets/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
+    <!-- Need this  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular-route.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+    <!-- as well as production.min.js -->
+    <!-- // <script src="./dist/production.min.js"></script> -->
+    <script src='./javascripts/app.js'></script>
+    
+  </head>
+
+  <body ng-app="scrutiny">
+    <h1>Amherst Scrutiny</h1>
+    <div id="container">
+      <form ng-submit='searchResults()' class="searchForm" novalidate>
+        <!-- Department -->
+        <!-- Class Id -->
+        <!-- Class name -->
+        <input type="text" name='classname' placeholder='Class Name'>
+        <!-- Semester -->
+        <input type="text" name='semester' placeholder='Semester'>
+        <!-- Professor let's say required for now-->
+        <input type="text" name='professor' placeholder='Professor' required>
+
+        <button type='submit' value='search' ng-disabled='searchForm.$pristine'>Search</button>
+        <div ng-if='searchForm.$dirty && searchForm.professor.$error.required'>
+          Please enter a professor's name.
+        </div>
+      </form>
+    </div>
+    <ui-view></ui-view>
+
+    <script type='text/ng-template' id='/home.html'>
+      <h1>Welcome to Amherst Scrutiny</h1>
+    </script>
+  </body>
+</html>
