@@ -4,12 +4,15 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
+// var mongoose = require('./db/db.js');
+var monk = require('monk');
+var monkdb = monk('mongodb://localhost/amherstscrutiny');
 
-mongoose.connect('mongodb://localhost/amherstscrutiny');
+
+// mongoose.connect('mongodb://localhost/amherstscrutiny');
 
 var app = express();
-
+var router = express.Router();
 // MIDDLEWARE
 // =============================================================
 // view engine setup
@@ -23,21 +26,60 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
+// Make db available to router
+app.use(function(req, res, next) {
+  // req.db = mongoose;
+  req.db = monkdb;
+  next();
+})
 
 
 // ROUTING
 // =============================================================
-var indexRouter = require('../routes/index');
-// var postReview
+// var indexRouter = require('../routes/index');
+// var resultsRouter = require('../routes/results');
+
+// app.use('/', indexRouter);
+// app.use('/results', resultsRouter);
+
+app.use(router);
+
+router.get('/', function(req, res, next) {
+  res.render('index');
+});
+
+router.post('/api/results', function(req, res, next) {
+  // Mongoose query with data.
+  console.log('Processing: ');
+  console.log(req.body);
+  // console.log('Response object: ');
+  // console.log(res);
+  // console.log('DB');
+  // console.log(req.db);
+  var collection = req.db.get('reviews');
+  // console.log('Collection: ');
+  // console.log(collection);
+  var query = collection.find({}, {}, function(err, reviews) {
+    console.log("Queries returned: ");
+    console.log(reviews);
+    res.send(reviews);
+  });
+
+  // res.send(req.body);
+});
 
 
+router.get('/results', function(req, res, next) {
+  console.log(req.query);
+  res.locals.query = req.query;
+  res.render('results');
+})
 
-app.use('/', indexRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
 

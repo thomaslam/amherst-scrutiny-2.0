@@ -11,8 +11,8 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
     <!-- as well as production.min.js -->
     <!-- // <script src="./dist/production.min.js"></script> -->
-    <script src='./javascripts/services.js'></script>
     <script src='./javascripts/app.js'></script>
+    <script src='./javascripts/services.js'></script>
   </head>
 
   <body ng-app="scrutiny" ng-controller='MainController'>
@@ -27,7 +27,7 @@
         ng-model='formData.classname'>
         <!-- Class id -->
         <input type="text" name='classid' placeholder='Class Id'
-        ng-model='formData.classid'>
+        ng-model='formData.classId'>
         <!-- Semester -->
         <input type="text" name='semester' placeholder='Semester'
         ng-model='formData.semester'>
@@ -42,12 +42,23 @@
       </form>
     </div>
 
-    <!-- Whatever is in the home page -->
+    <!-- Results page -->
     <!-- =================================================================== -->
-    <h1>Home</h1>
+    <h1>Results</h1>
+    
+    <!-- Result based on form query -->
+    <%= query.department %>
+    <%= query.classid %>
+    <%= query.classname %>
+    <%= query.semester %>
+    <%= query.professor %>
+
     <pre>
-      {{formData}}
+      <%= query %>
     </pre>
+    <!-- <pre>
+      {{dataToSend}}
+    </pre> -->
     <!-- <ui-view></ui-view> -->
 
     <!--<script type='text/ng-template' id='/home.html'>
