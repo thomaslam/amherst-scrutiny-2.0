@@ -73,7 +73,11 @@ router.get('/results', function(req, res, next) {
   console.log(req.query);
   res.locals.query = req.query;
   res.render('results');
-})
+});
+
+// router.post('/results', function(req, res, next) {
+  
+// })
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
